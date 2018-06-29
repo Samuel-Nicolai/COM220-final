@@ -38,4 +38,8 @@ public class Controle {
         }
         System.exit(0);
     }
+    
+    public void cancela(){
+        objLimite.cancel();
+    }
 }

@@ -25,74 +25,88 @@ public class LimiteCadastroCliente extends JPanel {
     private JButton buttonCancelar = new JButton("Cancelar");
 
     public LimiteCadastroCliente(Controle objControle) {
-        this.setLayout(new GridBagLayout());
-        this.setBackground(Color.WHITE);
-        this.setSize(800, 600);
-        this.setBorder(new EmptyBorder(5,5,5,5));
+        JPanel p = new JPanel();
+        
+        p.setLayout(new GridBagLayout());
+        p.setBackground(Color.WHITE);
+       
+        p.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5,5,5,5);
+        constraints.insets = new Insets(5, 5, 5, 5);
         constraints.fill = GridBagConstraints.BOTH;
 
         constraints.gridx = 0;
         constraints.gridy = 0;
         constraints.gridwidth = 2;
-        this.add(labelTitulo, constraints);
+        p.add(labelTitulo, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 1;
-        this.add(labelCpf, constraints);
+        p.add(labelCpf, constraints);
 
         constraints.gridx = 3;
         constraints.gridy = 1;
-        this.add(fieldCpf, constraints);
+        p.add(fieldCpf, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 2;
-        this.add(labelNome, constraints);
+        p.add(labelNome, constraints);
 
         constraints.gridx = 3;
         constraints.gridy = 2;
-        this.add(fieldNome, constraints);
+        p.add(fieldNome, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 3;
-        this.add(labelEndereco, constraints);
+        p.add(labelEndereco, constraints);
 
         constraints.gridx = 3;
         constraints.gridy = 3;
-        this.add(fieldEndereco, constraints);
+        p.add(fieldEndereco, constraints);
 
         constraints.gridx = 0;
         constraints.gridy = 4;
-        this.add(labelEmail, constraints);
+        p.add(labelEmail, constraints);
 
         constraints.gridx = 3;
         constraints.gridx = 4;
-        this.add(fieldEmail, constraints);
+        p.add(fieldEmail, constraints);
 
-        constraints.gridx = 0;
-        constraints.gridy = 5;
-        this.add(buttonCancelar, constraints);
-
-        constraints.gridx = 3;
-        constraints.gridy = 5;
-        this.add(buttonSalvar, constraints);
-
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.setBackground(Color.WHITE);
+        this.add(p);
+        
+        JPanel p2 = new JPanel();
+        p2.setLayout(new BoxLayout(p2, BoxLayout.X_AXIS));
+        p2.add(buttonSalvar);
+        p2.add(Box.createRigidArea(new Dimension(10, 0)));
+        p2.add(buttonCancelar);
+        p2.add(Box.createRigidArea(new Dimension(40, 0)));
+        p2.setBorder(new EmptyBorder(50,50,50,50));
+        p2.setBackground(Color.WHITE);
+        
+        this.add(p2);
+        
         buttonSalvar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (fieldCpf.getText() == null || fieldCpf.getText().equalsIgnoreCase("") || fieldNome.getText() == null ||
-                        fieldNome.getText().equalsIgnoreCase("") || fieldEndereco.getText() == null ||
-                        fieldEndereco.getText().equalsIgnoreCase("") || fieldEmail.getText() == null ||
-                        fieldEmail.getText().equalsIgnoreCase("")){
+                if (fieldCpf.getText() == null || fieldCpf.getText().equalsIgnoreCase("") || fieldNome.getText() == null
+                        || fieldNome.getText().equalsIgnoreCase("") || fieldEndereco.getText() == null
+                        || fieldEndereco.getText().equalsIgnoreCase("") || fieldEmail.getText() == null
+                        || fieldEmail.getText().equalsIgnoreCase("")) {
                     JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos!");
                 } else {
-                    try {
-                        objControle.getObjCtrCliente().cadastraCliente(fieldCpf.getText(), fieldNome.getText(), fieldEndereco.getText(), fieldEmail.getText());
-                    } catch (Exception e1) {
-                        JOptionPane.showMessageDialog(null, e1.getMessage());
-                    }
+                  
+                        try {
+                            objControle.getObjCtrCliente().cadastraCliente(fieldCpf.getText(), fieldNome.getText(), fieldEndereco.getText(), fieldEmail.getText());
+                            JOptionPane.showMessageDialog(null, "Cliente Cadastrado!");
+
+                        } catch (Exception e1) {
+                            JOptionPane.showMessageDialog(null, e1.getMessage());
+                        }
+                    
                 }
                 fieldCpf.setText("");
                 fieldNome.setText("");
@@ -108,6 +122,7 @@ public class LimiteCadastroCliente extends JPanel {
                 fieldNome.setText("");
                 fieldEndereco.setText("");
                 fieldEmail.setText("");
+                objControle.cancela();
             }
         });
 

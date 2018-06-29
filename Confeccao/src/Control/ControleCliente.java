@@ -41,7 +41,7 @@ public class ControleCliente {
 
     public void cadastraCliente(String cpf, String nome, String endereco, String email) throws Exception {
         this.objCliente = new Cliente(cpf, nome, endereco, email);
-        if (clientes.contains(objCliente)){
+          if (existeCliente(cpf)) {
             throw new Exception("O cliente " + cpf + " já está cadastrado.");
         }
         else {
@@ -51,12 +51,17 @@ public class ControleCliente {
 
     public String consultaCliente(String cpf) {
         String retorno = "";
+        boolean b = false;
         for (Cliente c: clientes) {
             if (c.getCpf().equalsIgnoreCase(cpf)) {
-                retorno += "Nome: " + c.getNome();
+                retorno += "Nome: " + c.getNome() +"\n"
+                        + "CPF: " + c.getCpf() + "\n"
+                        + "Endereço: " + c.getEndereco() + "\n"
+                        + "Email: " + c.getEmail() +"\n\n";
+                b = true;
             }
         }
-        if (retorno.equalsIgnoreCase("")){
+        if (b = false){
             retorno += "Cliente " + cpf + " não encontrado.";
         }
         return retorno;

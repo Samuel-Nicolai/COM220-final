@@ -7,54 +7,59 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.border.Border;
 
 public class LimiteConsultaCliente extends JPanel {
 
-    private JLabel labelTitulo = new JLabel("Consulta de clientes");
-    private JLabel labelCpf = new JLabel("CPF:      ");
-    private JTextField fieldCpf = new JTextField(30);
-    private JButton buttonConsultar = new JButton("Consultar");
-    private JTextArea area = new JTextArea(30, 30);
+    private JPanel painel = new JPanel(new BorderLayout());
+    private JTextField t1 = new JTextField();
+    private JTextArea area = new JTextArea(32, 70);
+    private Controle ctr;
+    private JButton b1 = new JButton("Consultar");
+    private JButton b2 = new JButton("Cancelar");
 
     public LimiteConsultaCliente(Controle objControle) {
-        this.setLayout(new GridBagLayout());
-        this.setBackground(Color.WHITE);
-        this.setSize(800, 600);
-        this.setBorder(new EmptyBorder(5,5,5,5));
+        this.ctr = objControle;
 
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5,5,5,5);
-        constraints.fill = GridBagConstraints.BOTH;
+        JPanel p = new JPanel();
+        p.setLayout(new BoxLayout(p, BoxLayout.X_AXIS));
+        p.add(Box.createRigidArea(new Dimension(10, 0)));
+        p.add(t1);
+        p.add(Box.createRigidArea(new Dimension(10, 0)));
+        p.add(b1);
+        p.add(Box.createRigidArea(new Dimension(10, 0)));
+        p.add(b2);
+        p.add(Box.createRigidArea(new Dimension(10, 0)));
+        p.setBackground(Color.WHITE);
 
-        constraints.gridx = 0;
-        constraints.gridy = 0;
-        constraints.gridwidth = 2;
-        this.add(labelTitulo, constraints);
+        t1.setPreferredSize(new Dimension(30, 27));
+        t1.setMaximumSize(new Dimension(Integer.MAX_VALUE, t1.getPreferredSize().height));
 
-        constraints.gridx = 0;
-        constraints.gridy = 1;
-        this.add(labelCpf, constraints);
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createRigidArea(new Dimension(0, 10)));
+        this.add(p);
 
-        constraints.gridx = 3;
-        constraints.gridy = 1;
-        this.add(fieldCpf, constraints);
+        area.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.black), "Informações:"));
+        area.setEditable(false);
+        this.add(area);
 
-        constraints.gridx = 0;
-        constraints.gridy = 2;
-        this.add(buttonConsultar, constraints);
-
-        constraints.gridx = 3;
-        constraints.gridy = 2;
-        constraints.gridwidth = 1;
-        constraints.gridheight = 10;
-        this.add(area, constraints);
-
-        buttonConsultar.addActionListener(new ActionListener() {
+        b1.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                area.setText(objControle.getObjCtrCliente().consultaCliente(fieldCpf.getText()));
+                System.out.println(t1.getText());
+                area.setText(ctr.getObjCtrCliente().consultaCliente(t1.getText()));
             }
         });
 
+        b2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ctr.cancela();
+            }
+        });
+
+        this.setBackground(Color.WHITE);
+        this.setSize(800, 600);
     }
+
 }

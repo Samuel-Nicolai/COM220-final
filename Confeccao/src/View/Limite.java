@@ -33,6 +33,7 @@ public class Limite extends JFrame {
     public Limite(Controle objControle) {   // Construtor recebe um controle principal
         super("Confecção");
         this.setSize(800, 600);
+        
 
         // Montando o esquema de paineis com CardLayout
         this.cardPanel = new JPanel(new CardLayout());
@@ -134,5 +135,10 @@ public class Limite extends JFrame {
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.setVisible(true);
+    }
+    
+    public void cancel(){
+        CardLayout painelinicial = (CardLayout) (cardPanel.getLayout());
+        painelinicial.show(cardPanel, "inicial");
     }
 }
