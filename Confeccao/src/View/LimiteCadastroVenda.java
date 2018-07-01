@@ -1,8 +1,6 @@
 package View;
 
 import Control.Controle;
-import Model.Cliente;
-import Model.Mercadoria;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,21 +8,20 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class LimiteCadastroVenda extends JPanel {
 
-    private Cliente objCliente;
-    private Mercadoria objMercadoria;
-    private ArrayList<Mercadoria> compras = new ArrayList<>();
+    private ArrayList<String> compras = new ArrayList<>();
 
     private int quantidadeProd = 0;
+    private float valorTotal = 0;
 
     private JLabel labelTitulo = new JLabel("Realizar Venda");
     private JLabel labelData = new JLabel("Data (dia/mes/ano): ");
     private JLabel labelCliente = new JLabel("Código do Cliente: ");
     private JLabel labelProduto = new JLabel("Código do Produto / Quantidade: ");
-    private JTextArea labelAlerta = new JTextArea(20, 20);
-    private JLabel labelTotal = new JLabel("Total = ");
+    private JLabel labelTotal = new JLabel("Total = " + valorTotal);
 
     private JTextField fieldDia = new JTextField(2);
     private JTextField fieldMes = new JTextField(2);
@@ -117,27 +114,18 @@ public class LimiteCadastroVenda extends JPanel {
         constraints.gridy = 6;
         this.add(labelTotal, constraints);
 
-        constraints.gridx = 2;
-        constraints.gridy = 7;
-        this.add(labelAlerta, constraints);
-
-
         buttonAddCliente.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String str = "";
                 if (fieldCliente.getText() == null || fieldCliente.getText().equalsIgnoreCase("")) {
-                    JOptionPane.showMessageDialog(null, "Preencha o campo com o CPF do cliente!");
+                    JOptionPane.showMessageDialog(null, "O Campo de código do cliente deve ser preenchido");
                 } else {
-                    if(objControle.getObjCtrCliente().existeCliente(fieldCliente.getText())) {
-                        texto += "Cliente: \n";
-                        texto += objControle.getObjCtrCliente().consultaCliente(fieldCliente.getText()) + "\n";
+                    if (objControle.getObjCtrCliente().existeCliente(fieldCliente.getText())) {
+                        texto += objControle.getObjCtrCliente().consultaCliente(fieldCliente.getText());
                         conferencia.setText(texto);
                     } else {
-                        str = fieldCliente.getText() + " não está cadastrado.\n" +
-                                "Para proceder com o cadastro vá em: \nMenu > Cliente > Cadastrar.";
-                        labelAlerta.setText(str);
-                        fieldCliente.setText("");
+                        JOptionPane.showMessageDialog(null, "O cliente "
+                            + fieldCliente.getText() + " não existe.\nPara cadastrá-lo vá em Menu > cliente > Cadastrar");
                     }
                 }
             }
@@ -146,29 +134,106 @@ public class LimiteCadastroVenda extends JPanel {
         buttonAddProduto.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (fieldProduto.getText() == null || fieldProduto.getText().equalsIgnoreCase("") ||
-                        fieldQuantidade.getText() == null || fieldQuantidade.getText().equalsIgnoreCase("")) {
-                    JOptionPane.showMessageDialog(null, "Os Campos Codigo do produto e quantidade devem ser preenchidos");
-                    if (objControle.getObjCtrMercadoria().existeMercadoria(Integer.parseInt(fieldProduto.getText())) > 0) {
-                        if (objControle.getObjCtrMercadoria().consultaQuantidade(Integer.parseInt(fieldProduto.getText())) >
-                                Integer.parseInt(fieldQuantidade.getText())) {
-                            texto += "Produto: " + fieldProduto.getText() + "Quantidade: " + fieldQuantidade.getText() + "\n";
-                            compras.add(objControle.getObjCtrMercadoria().getObjMercadoria(Integer.parseInt(fieldProduto.getText())));
-                            conferencia.setText(texto);
-                            fieldCliente.setText("");
-                            fieldQuantidade.setText("");
-                        } else {
-                            labelAlerta.setText("Quantidade insuficiente.\n" +
-                                    "Restam " + objControle.getObjCtrMercadoria().consultaQuantidade(Integer.parseInt(fieldProduto.getText())) + " unidades");
-                        }
+                if (fieldProduto.getText() == null || fieldProduto.getText().equalsIgnoreCase("")
+                        || fieldQuantidade.getText() == null || fieldQuantidade.getText().equalsIgnoreCase("")) {
+                    JOptionPane.showMessageDialog(null, "Os campos código do produto e quantidade devem ser preenchidos");
+                } else {
+                    int cod = Integer.parseInt(fieldProduto.getText());
+                    int quant = Integer.parseInt(fieldQuantidade.getText());
+                    if (objControle.getObjCtrMercadoria().existeMercadoria(cod) == -1){
+                        JOptionPane.showMessageDialog(null, "Produto " + cod + " não está cadastrado");
+                        fieldProduto.setText("");
                     } else {
-                        labelAlerta.setText( "O produto: " + fieldProduto.getText() + " não existe!");
+                        if (objControle.getObjCtrMercadoria().consultaQuantidade(cod) < quant || fieldQuantidade.getText().equalsIgnoreCase("0")) {
+                            JOptionPane.showMessageDialog(null, "Não existe quantidade suficiente em estoque.\n" +
+                                    "Estoque " + objControle.getObjCtrMercadoria().consultaQuantidade(cod) +
+                                    "\nOu quantidade deve ser maior do que zero.");
+                        } else {
+                            if (quantidadeProd > 10) {
+                                JOptionPane.showMessageDialog(null, "Pode-se inserir no máximo 10 produtos por nota!");
+                            } else {
+                                compras.add(fieldProduto.getText() + "," + fieldQuantidade.getText());
+                                String array = objControle.getObjCtrMercadoria().consultaMercadoriaCompra(Integer.parseInt(fieldProduto.getText()));
+                                float preco = Float.parseFloat(array.split(",")[1]);
+                                texto += "\nCodigo: " + array.split(",")[0] + "\tQuant.: " + fieldQuantidade.getText() +
+                                            "\tPreço: " + preco;
+                                conferencia.setText(texto);
+                                quantidadeProd++;
+                                valorTotal += Integer.parseInt(fieldQuantidade.getText()) * preco;
+                                labelTotal.setText("Total = " + valorTotal);
+                                fieldProduto.setText("");
+                                fieldQuantidade.setText("");
+                            }
+                        }
                     }
-                    fieldCliente.setText("");
-                    fieldQuantidade.setText("");
+                }
+            }
+        });
+
+        buttonCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                quantidadeProd = 0;
+                valorTotal = 0;
+                texto = "";
+                fieldDia.setText("");
+                fieldMes.setText("");
+                fieldAno.setText("");
+                fieldCliente.setText("");
+                fieldProduto.setText("");
+                fieldQuantidade.setText("");
+                conferencia.setText("");
+                labelTotal.setText("Total = 0");
+                compras.removeAll(compras);
+                compras.clear();
+            }
+        });
+
+        buttonGerarNota.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (fieldDia.getText() == null || fieldDia.getText().equalsIgnoreCase("")
+                        || fieldMes.getText() == null || fieldMes.getText().equalsIgnoreCase("")
+                        || fieldAno.getText() == null || fieldAno.getText().equalsIgnoreCase("")
+                        || fieldCliente.getText() == null || fieldCliente.getText().equalsIgnoreCase("")) {
+                    JOptionPane.showMessageDialog(null, "Os campos de data e cliente devem estar preenchidos!");
+                } else {
+                    if (compras.isEmpty()) {
+                        JOptionPane.showMessageDialog(null, "Você deve adicionar ao menos um produto válido!");
+                    } else {
+                        int dia = Integer.parseInt(fieldDia.getText());
+                        int mes = Integer.parseInt((fieldMes.getText())) - 1;
+                        int ano = Integer.parseInt(fieldAno.getText()) - 1900;
+                        Date data = new Date(ano, mes, dia);
+                        String cliente = fieldCliente.getText();
+                        String nota = objControle.getObjCtrNotaFiscal().geraNota(data, cliente, compras);
+                        quantidadeProd = 0;
+                        valorTotal = 0;
+                        texto = "";
+                        fieldDia.setText("");
+                        fieldMes.setText("");
+                        fieldAno.setText("");
+                        fieldCliente.setText("");
+                        fieldProduto.setText("");
+                        fieldQuantidade.setText("");
+                        conferencia.setText("");
+                        labelTotal.setText("Total = 0");
+                        compras.removeAll(compras);
+                        compras.clear();
+                        mostraNota(nota);
+                    }
                 }
             }
         });
     }
 
+    public void mostraNota(String nota) {
+        JFrame notaFiscal = new JFrame("Nota fiscal");
+        JTextArea area = new JTextArea(nota);
+        notaFiscal.add(area);
+        notaFiscal.setSize(500,500);
+        notaFiscal.setLocationRelativeTo(null);
+        notaFiscal.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        notaFiscal.setVisible(true);
+    }
 }

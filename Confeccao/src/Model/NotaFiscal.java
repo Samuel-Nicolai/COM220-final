@@ -11,11 +11,12 @@ public class NotaFiscal implements Serializable {
     private Cliente cliente;
     private ArrayList<Mercadoria> itens = new ArrayList<>();
 
-    public NotaFiscal(int codigo, Date data, Cliente cliente, ArrayList<Mercadoria> itens) {
+    public NotaFiscal() {}
+
+    public NotaFiscal(Date data, Cliente cliente) {
         this.id = (int) System.currentTimeMillis();
         this.data = data;
         this.cliente = cliente;
-        this.itens = itens;
     }
 
     public int getId() {
@@ -46,7 +47,28 @@ public class NotaFiscal implements Serializable {
         this.cliente = cliente;
     }
 
-    public void setItens(ArrayList<Mercadoria> itens) {
-        this.itens = itens;
+    public void setIten(Mercadoria item, int quantidade) {
+        item.setQuantidade(quantidade);
+        this.itens.add(item);
+    }
+
+    public String stringNota() {
+        String retorno = "";
+        retorno += "Confecção CNPJ: 999888777 \tNota:\t" + this.getId();
+        retorno += "\nCliente:\tCPF: " + this.getCliente().getCpf() + "\tNome: " + this.getCliente().getNome();
+        retorno += "\nProduto\tDescrição\t\tPreço\tQuantidade";
+        for (Mercadoria m: itens) {
+            retorno += "\n" + m.getCodigo() + "\t" + m.getDescricao() + "\t\t" + m.getValorVenda() + "\t" + m.getQuantidade();
+        }
+        retorno += "\nTotal: " + this.calculaValorNota();
+        return retorno;
+    }
+
+    public float calculaValorNota() {
+        float valor = 0;
+        for (Mercadoria m: itens) {
+            valor += m.getValorVenda() * m.getQuantidade();
+        }
+        return valor;
     }
 }

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ControleCliente {
 
-    private Cliente objCliente;
+    private Cliente objCliente = new Cliente();
     private ArrayList<Cliente> clientes = new ArrayList<>();
     private final String arquivoClientes = "clientes.dat";
 
@@ -75,9 +75,9 @@ public class ControleCliente {
     public Cliente getObjCliente(String cpf) {
         for (Cliente c: clientes) {
             if (cpf.equalsIgnoreCase(c.getCpf())) {
-                objCliente = c;
+                this.objCliente = c;
             }
         }
-        return objCliente;
+        return this.objCliente;
     }
 }

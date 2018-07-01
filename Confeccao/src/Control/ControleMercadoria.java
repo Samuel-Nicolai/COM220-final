@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ControleMercadoria {
 
-    private Mercadoria objMercadoria;
+    private Mercadoria objMercadoria = new Mercadoria();
     private ArrayList<Mercadoria> estoque = new ArrayList<>();
     private final String arquivoEstoque = "estoque.dat";
 
@@ -36,7 +36,7 @@ public class ControleMercadoria {
     }
 
     public int existeMercadoria(int codigo) {
-        int existe = 0;
+        int existe = -1;
         for (Mercadoria m: estoque) {
             if (m.getCodigo() == codigo) {
                 existe = estoque.indexOf(m);
@@ -47,7 +47,7 @@ public class ControleMercadoria {
 
     public void cadastraMercadoria(int codigo, String descricao, float valorCompra, float valorVenda, int quantidade) {
         int index = this.existeMercadoria(codigo);
-        if (index != 0) {
+        if (index != -1) {
             estoque.get(index).setQuantidade(estoque.get(index).getQuantidade() + quantidade);
         } else {
             this.objMercadoria = new Mercadoria(codigo, descricao, valorCompra, valorVenda, quantidade);
@@ -58,9 +58,18 @@ public class ControleMercadoria {
     public String consultaMercadoria(int codigo) {
         String retorno = "O Produto " + codigo + " não existe!";
         int index = this.existeMercadoria(codigo);
-        if (index != 0) {
+        if (index != -1) {
             retorno = "Produto: " + codigo + "\n" + "Descrição: " + estoque.get(index).getDescricao() + "\n" +
                         "Preço: " + estoque.get(index).getValorVenda() + "\nQuantidade: " + estoque.get(index).getQuantidade();
+        }
+        return retorno;
+    }
+
+    public String consultaMercadoriaCompra(int codigo) {
+        String retorno = ",";
+        int index = this.existeMercadoria(codigo);
+        if (index != -1) {
+            retorno = codigo + "," + estoque.get(index).getValorVenda();
         }
         return retorno;
     }
@@ -75,12 +84,25 @@ public class ControleMercadoria {
         return quant;
     }
 
-    public Mercadoria getObjMercadoria(int codigo) {
+    public void diminuiEstoque(int codigo, int quantidade) {
         for (Mercadoria m: estoque) {
             if (m.getCodigo() == codigo) {
-                objMercadoria = m;
+                m.setQuantidade(m.getQuantidade() - quantidade);
             }
         }
-        return objMercadoria;
+    }
+
+    public Mercadoria getMercadoria(int codigo) {
+        Mercadoria retorno = new Mercadoria();
+        for (Mercadoria m: estoque) {
+            if (m.getCodigo() == codigo) {
+                retorno.setCodigo(m.getCodigo());
+                retorno.setDescricao(m.getDescricao());
+                retorno.setValorCompra(m.getValorCompra());
+                retorno.setValorVenda(m.getValorVenda());
+                retorno.setQuantidade(m.getQuantidade());
+            }
+        }
+        return retorno;
     }
 }

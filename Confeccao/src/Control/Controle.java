@@ -6,7 +6,7 @@ public class Controle {
 
     private ControleCliente objCtrCliente = new ControleCliente();
     private ControleMercadoria objCtrMercadoria = new ControleMercadoria();
-    private ControleNotaFiscal objCtrNotaFiscal = new ControleNotaFiscal();
+    private ControleNotaFiscal objCtrNotaFiscal = new ControleNotaFiscal(this);
     private Limite objLimite;
 
     public Controle() {
@@ -26,6 +26,10 @@ public class Controle {
 
     public ControleMercadoria getObjCtrMercadoria() {
         return objCtrMercadoria;
+    }
+
+    public ControleNotaFiscal getObjCtrNotaFiscal() {
+        return objCtrNotaFiscal;
     }
 
     public void finaliza() {

@@ -19,6 +19,12 @@ public class Limite extends JFrame {
     private JMenuItem itemMercadoriaCadastro;
     private JMenuItem itemMercadoriaConsulta;
     private JMenuItem itemVendaCadastrar;
+    private JMenuItem itemFaturamentoProduto;
+    private JMenuItem itemFaturamentoCliente;
+    private JMenuItem itemFaturamentoPeriodo;
+    private JMenuItem itemLucroPeriodo;
+    private JMenuItem itemVendaClientePeriodo;
+    private JMenuItem itemRankingProdutos;
     private JButton finalizar;
 
     // Todos os panels utilizados
@@ -29,6 +35,12 @@ public class Limite extends JFrame {
     private LimiteCadastroMercadoria formCadMercadoria;
     private LimiteConsultaMercadoria formConMercadoria;
     private LimiteCadastroVenda formCadVenda;
+    private LimiteFaturamentoProduto faturamentoProduto;
+    private LimiteFaturamentoCliente faturamentoCliente;
+    private LimiteFaturamentoPeriodo faturamentoPeriodo;
+    private LimiteLucroPeriodo lucroPeriodo;
+    private LimiteVendaClientePeriodo vendaClientePeriodo;
+    private LimiteProdutosMaisVendidos rankingProdutosMaisVendidos;
 
     public Limite(Controle objControle) {   // Construtor recebe um controle principal
         super("Confecção");
@@ -50,6 +62,18 @@ public class Limite extends JFrame {
         this.cardPanel.add(formConMercadoria, "formConMercadoria");
         this.formCadVenda = new LimiteCadastroVenda(objControle);
         this.cardPanel.add(formCadVenda, "formCadVenda");
+        this.faturamentoProduto = new LimiteFaturamentoProduto(objControle);
+        this.cardPanel.add(faturamentoProduto, "faturamentoProduto");
+        this.faturamentoCliente = new LimiteFaturamentoCliente(objControle);
+        this.cardPanel.add(faturamentoCliente, "faturamentoCliente");
+        this.faturamentoPeriodo = new LimiteFaturamentoPeriodo(objControle);
+        this.cardPanel.add(faturamentoPeriodo, "faturamentoPeriodo");
+        this.lucroPeriodo = new LimiteLucroPeriodo(objControle);
+        this.cardPanel.add(lucroPeriodo, "lucroPeriodo");
+        this.vendaClientePeriodo = new LimiteVendaClientePeriodo(objControle);
+        this.cardPanel.add(vendaClientePeriodo, "vendaClientePeriodo");
+        this.rankingProdutosMaisVendidos = new LimiteProdutosMaisVendidos(objControle);
+        this.cardPanel.add(rankingProdutosMaisVendidos, "rankingProdutosMaisVendidos");
 
         // Montando o JMenuBar
         this.menu = new JMenuBar();
@@ -76,7 +100,19 @@ public class Limite extends JFrame {
 
         this.menuVenda = new JMenu("Venda");
         this.itemVendaCadastrar = new JMenuItem("Realizar");
+        this.itemFaturamentoProduto = new JMenuItem("Consultar fat. do Produto");
+        this.itemFaturamentoCliente = new JMenuItem("Consultar fat. sobre Cliente");
+        this.itemFaturamentoPeriodo = new JMenuItem("Consultar fat. por Período");
+        this.itemLucroPeriodo = new JMenuItem("Consultar lucro por Período");
+        this.itemVendaClientePeriodo = new JMenuItem("Consultar vendas p/ cliente periodo");
+        this.itemRankingProdutos = new JMenuItem("Consultar Ranking de produtos");
         this.menuVenda.add(itemVendaCadastrar);
+        this.menuVenda.add(itemFaturamentoProduto);
+        this.menuVenda.add(itemFaturamentoCliente);
+        this.menuVenda.add(itemFaturamentoPeriodo);
+        this.menuVenda.add(itemLucroPeriodo);
+        this.menuVenda.add(itemVendaClientePeriodo);
+        this.menuVenda.add(itemRankingProdutos);
         this.menu.add(menuVenda, esquerda);
 
         this.finalizar = new JButton("Finalizar");
@@ -128,6 +164,54 @@ public class Limite extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CardLayout formCadVenda = (CardLayout) (cardPanel.getLayout());
                 formCadVenda.show(cardPanel, "formCadVenda");
+            }
+        });
+
+        this.itemFaturamentoProduto.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout faturamentoProduto = (CardLayout) (cardPanel.getLayout());
+                faturamentoProduto.show(cardPanel, "faturamentoProduto");
+            }
+        });
+
+        this.itemFaturamentoCliente.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout faturamentoCliente = (CardLayout) (cardPanel.getLayout());
+                faturamentoCliente.show(cardPanel, "faturamentoCliente");
+            }
+        });
+
+        this.itemFaturamentoPeriodo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout faturamentoPeriodo = (CardLayout) (cardPanel.getLayout());
+                faturamentoPeriodo.show(cardPanel, "faturamentoPeriodo");
+            }
+        });
+
+        this.itemLucroPeriodo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout lucroPeriodo = (CardLayout) (cardPanel.getLayout());
+                lucroPeriodo.show(cardPanel, "lucroPeriodo");
+            }
+        });
+
+        this.itemVendaClientePeriodo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout vendaClientePeriodo = (CardLayout) (cardPanel.getLayout());
+                vendaClientePeriodo.show(cardPanel, "vendaClientePeriodo");
+            }
+        });
+
+        this.itemRankingProdutos.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                CardLayout rankingProdutosMaisVendidos = (CardLayout) (cardPanel.getLayout());
+                rankingProdutosMaisVendidos.show(cardPanel, "rankingProdutosMaisVendidos");
             }
         });
 

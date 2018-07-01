@@ -2,13 +2,15 @@ package Model;
 
 import java.io.Serializable;
 
-public class Mercadoria implements Serializable {
+public class Mercadoria implements Serializable, Comparable<Mercadoria> {
 
     private int codigo;
     private String descricao;
     private float valorCompra;
     private float valorVenda;
     private int quantidade;
+
+    public Mercadoria() {}
 
     public Mercadoria(int codigo, String descricao, float valorCompra, float valorVenda, int quantidade) {
         this.codigo = codigo;
@@ -56,5 +58,16 @@ public class Mercadoria implements Serializable {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
+    }
+
+    @Override
+    public int compareTo(Mercadoria o) {
+        if (this.quantidade < o.quantidade) {
+            return 1;
+        }
+        if (this.quantidade > o.quantidade) {
+            return -1;
+        }
+        return 0;
     }
 }
