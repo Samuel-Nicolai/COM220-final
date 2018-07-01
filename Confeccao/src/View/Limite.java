@@ -18,6 +18,9 @@ public class Limite extends JFrame {
     private JMenuItem itemClienteConsulta;
     private JMenuItem itemMercadoriaCadastro;
     private JMenuItem itemMercadoriaConsulta;
+    private JMenuItem itemMercadoriaLista;
+    private JMenuItem itemMercadoriaIditar;
+    private JMenuItem itemMercadoriaRemover;
     private JMenuItem itemVendaCadastrar;
     private JMenuItem itemFaturamentoProduto;
     private JMenuItem itemFaturamentoCliente;
@@ -32,8 +35,13 @@ public class Limite extends JFrame {
     private Inicial panelInicial;
     private LimiteCadastroCliente formCadCliente;
     private LimiteConsultaCliente formConCliente;
+    
     private LimiteCadastroMercadoria formCadMercadoria;
     private LimiteConsultaMercadoria formConMercadoria;
+    private LimiteListarMercadoria formListaMercadoria;
+    private LimiteEditarMercadoria formEditarMercadoria;
+    private LimiteRemoverMercadoria formRemoveMercadoria;
+    
     private LimiteCadastroVenda formCadVenda;
     private LimiteFaturamentoProduto faturamentoProduto;
     private LimiteFaturamentoCliente faturamentoCliente;
@@ -52,27 +60,43 @@ public class Limite extends JFrame {
 
         this.panelInicial = new Inicial();
         this.cardPanel.add(panelInicial, "inicial");
-        this.formCadCliente = new LimiteCadastroCliente(objControle);
+        this.formCadCliente = new LimiteCadastroCliente(objControle);        
         this.cardPanel.add(formCadCliente, "formCadCliente");
-        this.formConCliente = new LimiteConsultaCliente(objControle);
+        
+        this.formConCliente = new LimiteConsultaCliente(objControle);        
         this.cardPanel.add(formConCliente, "formConCliente");
-        this.formCadMercadoria = new LimiteCadastroMercadoria(objControle);
+        
+        this.formCadMercadoria = new LimiteCadastroMercadoria(objControle);        
         this.cardPanel.add(formCadMercadoria, "formCadMercadoria");
-        this.formConMercadoria = new LimiteConsultaMercadoria(objControle);
+        
+        this.formConMercadoria = new LimiteConsultaMercadoria(objControle);        
         this.cardPanel.add(formConMercadoria, "formConMercadoria");
-        this.formCadVenda = new LimiteCadastroVenda(objControle);
+        
+        this.formListaMercadoria = new LimiteListarMercadoria(objControle);
+        this.cardPanel.add(formListaMercadoria, "formListaMercadoria");
+        
+        this.formEditarMercadoria = new LimiteEditarMercadoria(objControle);
+        this.cardPanel.add(formEditarMercadoria, "formEditaMercadoria");  
+        
+        this.formRemoveMercadoria = new LimiteRemoverMercadoria(objControle);
+        this.cardPanel.add(formRemoveMercadoria, "formRemoverMercadoria");
+        
+        this.formCadVenda = new LimiteCadastroVenda(objControle);        
         this.cardPanel.add(formCadVenda, "formCadVenda");
-        this.faturamentoProduto = new LimiteFaturamentoProduto(objControle);
+        
+        this.faturamentoProduto = new LimiteFaturamentoProduto(objControle);        
         this.cardPanel.add(faturamentoProduto, "faturamentoProduto");
-        this.faturamentoCliente = new LimiteFaturamentoCliente(objControle);
+        this.faturamentoCliente = new LimiteFaturamentoCliente(objControle);        
         this.cardPanel.add(faturamentoCliente, "faturamentoCliente");
-        this.faturamentoPeriodo = new LimiteFaturamentoPeriodo(objControle);
+        this.faturamentoPeriodo = new LimiteFaturamentoPeriodo(objControle);        
         this.cardPanel.add(faturamentoPeriodo, "faturamentoPeriodo");
-        this.lucroPeriodo = new LimiteLucroPeriodo(objControle);
+        this.lucroPeriodo = new LimiteLucroPeriodo(objControle);        
         this.cardPanel.add(lucroPeriodo, "lucroPeriodo");
         this.vendaClientePeriodo = new LimiteVendaClientePeriodo(objControle);
+        
         this.cardPanel.add(vendaClientePeriodo, "vendaClientePeriodo");
         this.rankingProdutosMaisVendidos = new LimiteProdutosMaisVendidos(objControle);
+        
         this.cardPanel.add(rankingProdutosMaisVendidos, "rankingProdutosMaisVendidos");
 
         // Montando o JMenuBar
@@ -94,8 +118,14 @@ public class Limite extends JFrame {
         this.menuMercadoria = new JMenu("Mercadoria");
         this.itemMercadoriaCadastro = new JMenuItem("Cadastrar");
         this.itemMercadoriaConsulta = new JMenuItem("Consultar");
+        this.itemMercadoriaLista = new JMenuItem("Listar");
+        this.itemMercadoriaIditar = new JMenuItem("Editar");
+        this.itemMercadoriaRemover = new JMenuItem("Remover");
         this.menuMercadoria.add(itemMercadoriaCadastro);
         this.menuMercadoria.add(itemMercadoriaConsulta);
+        this.menuMercadoria.add(itemMercadoriaLista);
+        this.menuMercadoria.add(itemMercadoriaIditar);
+        this.menuMercadoria.add(itemMercadoriaRemover);
         this.menu.add(menuMercadoria, esquerda);
 
         this.menuVenda = new JMenu("Venda");
@@ -156,6 +186,35 @@ public class Limite extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 CardLayout formConMercadoria = (CardLayout) (cardPanel.getLayout());
                 formConMercadoria.show(cardPanel, "formConMercadoria");
+            }
+        });
+        this.itemMercadoriaLista.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                CardLayout formListaMercadoria = (CardLayout) (cardPanel.getLayout());
+                formListaMercadoria.show(cardPanel,"formListaMercadoria");
+            }
+        });
+
+        this.itemMercadoriaIditar.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                CardLayout formEditaMercadoria = (CardLayout)(cardPanel.getLayout());
+                formEditaMercadoria.show(cardPanel, "formEditaMercadoria");
+            }
+        });
+        
+        this.itemMercadoriaRemover.addActionListener(new ActionListener()
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                CardLayout formRemoverMerca  = (CardLayout) (cardPanel.getLayout());
+                formRemoverMerca.show(cardPanel, "formRemoverMercadoria");
             }
         });
 

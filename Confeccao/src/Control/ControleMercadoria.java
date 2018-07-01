@@ -105,4 +105,94 @@ public class ControleMercadoria {
         }
         return retorno;
     }
+    
+     public Mercadoria getObjMercadoria(int codigo)
+    {
+        for (Mercadoria m : estoque)
+        {
+            if (m.getCodigo() == codigo)
+            {
+                objMercadoria = m;
+            }
+        }
+        return objMercadoria;
+    }
+     public Mercadoria consultaMercadorias(int pCodigo)
+    {
+        for (Mercadoria mec : estoque)
+        {
+            if (mec.getCodigo() == pCodigo)
+            {
+                return mec;
+            }
+        }
+        return null;
+    }
+
+    public String listaMercadoria()
+    {
+        String retorno = "";
+        retorno = "<html>"
+                + "<table border = 2 bgcolor='graylight'>"
+                + "<tr>"
+                + "<th>Codigo</th>"
+                + "<th>Descrição</th>"
+                + "<th>Quantidade</th"
+                + "<th>Preco de venda R$"
+                + "</tr>";
+        for (Mercadoria mec : estoque)
+        {
+
+            retorno += "<tr>"
+                    + "<td>" + mec.getCodigo() + "</td>"
+                    + "<td> " + mec.getDescricao() + "</td>"
+                    + "<td>" + mec.getQuantidade() + "</td>"
+                    + "<td>" + mec.getValorVenda() + "</td>"
+                    + "</tr>";
+
+        }
+        retorno += "</table></html>";
+        return retorno;
+    }
+
+    public void removeMercadoria(Mercadoria pMercadoria)
+    {
+        estoque.remove(pMercadoria);
+    }
+    //>>>EDIÇÃO<<< Da nova quantidade da mercadoria
+    //Caso nao encontre a mercadoria devolve null
+
+    public String editaMercadoria(int pCodigo, int pQtd)
+    {
+        String retorno = "O Produto " + pCodigo + " não existe!";
+        for (Mercadoria mec : estoque)
+        {
+            if (mec.getCodigo() == pCodigo)
+            {
+                mec.setQuantidade(pQtd);
+                retorno = "<html>"
+                        + "<table border = 1 text-align : center>"
+                        + "<tr>"
+                        + "<th>Codigo</th>"
+                        + "<th>Descrição</th>"
+                        + "<th>Quantidade</th"
+                        + "<th>Preço de venda R$"
+                        + "</tr>";
+                retorno += "<tr>"
+                        + "<td>" + mec.getCodigo() + "</td>"
+                        + "<td> " + mec.getDescricao() + "</td>"
+                        + "<td>" + mec.getQuantidade() + "</td>"
+                        + "<td>" + mec.getValorVenda() + "</td>"
+                        + "</tr>";
+
+                retorno += "</table></html>";
+            }
+
+        }
+        return retorno;
+
+    }
+    
+    
+    
 }
