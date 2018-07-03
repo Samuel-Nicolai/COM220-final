@@ -80,7 +80,7 @@ public class LimiteRemoverMercadoria extends JPanel
                         if (result == JOptionPane.YES_OPTION)
                         {
                             auxiliar = objControle.getObjCtrMercadoria().consultaMercadorias(codigo);
-                            objControle.getObjCtrMercadoria().removeMercadoria(auxiliar);
+                            objControle.getObjCtrMercadoria().removeMercadoria(auxiliar); // aqui remove a mercadoria 
                         }
 
                     } catch (Exception exec)

@@ -11,22 +11,23 @@ import java.awt.event.ActionListener;
 public class LimiteCadastroMercadoria extends JPanel
 {
 
+    //Criando os labels 
     private JLabel labelTitulo = new JLabel("Cadastro de Mercadorias");
     private JLabel labelCodigo = new JLabel("Codigo:             ");
     private JLabel labelDescricao = new JLabel("Descricao:          ");
     private JLabel labelValorCompra = new JLabel("Custo:              ");
     private JLabel labelValorVenda = new JLabel("Valor de Venda:     ");
     private JLabel labelQuantidade = new JLabel("Quantidade:         ");
-
+// criando os Textfields
     private JTextField fieldCodigo = new JTextField(40);
     private JTextField fieldDescricao = new JTextField(40);
     private JTextField fieldValorCompra = new JTextField(40);
     private JTextField fieldValorVenda = new JTextField(40);
     private JTextField fieldQuantidade = new JTextField(40);
-
+// criando os botoes
     private JButton buttonSalvar = new JButton("Salvar");
     private JButton buttonCancelar = new JButton("Cancelar");
-
+// construtor da classe
     public LimiteCadastroMercadoria(Controle objControle)
     {
         this.setLayout(new GridBagLayout());
@@ -90,7 +91,7 @@ public class LimiteCadastroMercadoria extends JPanel
         constraints.gridx = 3;
         constraints.gridy = 6;
         this.add(buttonSalvar, constraints);
-
+// botao de salvar a mercadoria
         buttonSalvar.addActionListener(new ActionListener()
         {
             @Override

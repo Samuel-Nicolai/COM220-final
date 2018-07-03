@@ -10,13 +10,17 @@ import java.awt.event.ActionListener;
 
 public class LimiteConsultaMercadoria extends JPanel
 {
+// criando os labels
 
     private JLabel labelTitulo = new JLabel("Consulta de Mercadoria");
     private JLabel labelCodigo = new JLabel("Codigo:      ");
+    
     private JTextField fieldCodigo = new JTextField(30);
+    
     private JButton buttonConsultar = new JButton("Consultar");
+    
     private JTextArea area = new JTextArea(30, 30);
-
+// construtor
     public LimiteConsultaMercadoria(Controle objControle)
     {
         this.setLayout(new GridBagLayout());

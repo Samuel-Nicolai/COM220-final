@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package View;
+
 import Control.*;
 
 import java.awt.Color;
@@ -24,24 +25,26 @@ import javax.swing.border.EmptyBorder;
  */
 public class LimiteEditarMercadoria extends JPanel
 {
-     private JLabel labelTitulo = new JLabel("Editar de Mercadoria");
+// criando os Jlabel
+    private JLabel labelTitulo = new JLabel("Editar de Mercadoria");
     private JLabel labelCodigo = new JLabel("Codigo:      ");
     private JLabel quantidadLabel = new JLabel("Quantidade:      ");
+    private JLabel area = new JLabel("");
+// criando os textfield
     private JTextField fieldCodigo = new JTextField(30);
     private JTextField quantidadeField = new JTextField(30);
+// criando os botoes
     private JButton buttonEditar = new JButton("Editar");
-    private JLabel area = new JLabel("");
-    
-    
+// construtor da classe
     public LimiteEditarMercadoria(Controle objControle)
     {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.WHITE);
         this.setSize(800, 600);
-        this.setBorder(new EmptyBorder(5,5,5,5));
+        this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5,5,5,5);
+        constraints.insets = new Insets(5, 5, 5, 5);
         constraints.fill = GridBagConstraints.BOTH;
 
         constraints.gridx = 0;
@@ -56,14 +59,14 @@ public class LimiteEditarMercadoria extends JPanel
         constraints.gridx = 3;
         constraints.gridy = 1;
         this.add(fieldCodigo, constraints);
-        
+
         constraints.gridx = 0;
         constraints.gridy = 2;
-        this.add(quantidadLabel,constraints);
-        
+        this.add(quantidadLabel, constraints);
+
         constraints.gridx = 3;
         constraints.gridy = 2;
-        this.add(quantidadeField,constraints);
+        this.add(quantidadeField, constraints);
 
         constraints.gridx = 2;
         constraints.gridy = 3;
@@ -75,19 +78,17 @@ public class LimiteEditarMercadoria extends JPanel
         constraints.gridheight = 5;
         this.add(area, constraints);
 
-        buttonEditar.addActionListener(new ActionListener() {
+        buttonEditar.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 int cod = Integer.parseInt(fieldCodigo.getText());
                 int qtd = Integer.parseInt(quantidadeField.getText());
-               area.setText(objControle.getObjCtrMercadoria().editaMercadoria(cod, qtd));
+                area.setText(objControle.getObjCtrMercadoria().editaMercadoria(cod, qtd)); // adiciona a quantidade nova na antiga
             }
         });
-        
-        
-        
-        
-        
+
     }
-    
+
 }

@@ -5,25 +5,33 @@ import Model.Mercadoria;
 import java.io.*;
 import java.util.ArrayList;
 
-public class ControleMercadoria {
+public class ControleMercadoria
+{
 
     private Mercadoria objMercadoria = new Mercadoria();
     private ArrayList<Mercadoria> estoque = new ArrayList<>();
     private final String arquivoEstoque = "estoque.dat";
 
-    public ControleMercadoria() {}
+    public ControleMercadoria()
+    {
+    }
 
-    protected void desserializaMercadoria() throws Exception {
+    // pega do arquiovo os dados das mercadorias
+    protected void desserializaMercadoria() throws Exception
+    {
         File objFile = new File(arquivoEstoque);
-        if (objFile.exists()) {
+        if (objFile.exists())
+        {
             FileInputStream objFileInput = new FileInputStream(arquivoEstoque);
             ObjectInputStream objInput = new ObjectInputStream(objFileInput);
             this.estoque = (ArrayList<Mercadoria>) objInput.readObject();
             objInput.close();
         }
     }
+// manda para o arquivo as mercadorias 
 
-    private void serializaMercadoria() throws Exception {
+    private void serializaMercadoria() throws Exception
+    {
         FileOutputStream objFileOutput = new FileOutputStream(arquivoEstoque);
         ObjectOutputStream objOutput = new ObjectOutputStream(objFileOutput);
         objOutput.writeObject(estoque);
@@ -31,71 +39,98 @@ public class ControleMercadoria {
         objOutput.close();
     }
 
-    public void finaliza() throws Exception {
+    public void finaliza() throws Exception
+    {
         this.serializaMercadoria();
     }
-
-    public int existeMercadoria(int codigo) {
+// se existrir a mercadoria ele retorna a posição que ela esta, se nao retorna -1
+    public int existeMercadoria(int codigo)
+    {
         int existe = -1;
-        for (Mercadoria m: estoque) {
-            if (m.getCodigo() == codigo) {
+        for (Mercadoria m : estoque)
+        {
+            if (m.getCodigo() == codigo)
+            {
                 existe = estoque.indexOf(m);
             }
         }
         return existe;
     }
-
-    public void cadastraMercadoria(int codigo, String descricao, float valorCompra, float valorVenda, int quantidade) {
+/**
+ * Crude normal 
+ * @param codigo da mercadoria
+ * @param descricao especificação de como a mercadoria é
+ * @param valorCompra o valor que ela foi comprada
+ * @param valorVenda o valor que será vendida
+ * @param quantidade  quantidade que esta me estoque
+ */
+    public void cadastraMercadoria(int codigo, String descricao, float valorCompra, float valorVenda, int quantidade)
+    {
         int index = this.existeMercadoria(codigo);
-        if (index != -1) {
+        if (index != -1)
+        {
             estoque.get(index).setQuantidade(estoque.get(index).getQuantidade() + quantidade);
-        } else {
+        } else
+        {
             this.objMercadoria = new Mercadoria(codigo, descricao, valorCompra, valorVenda, quantidade);
             this.estoque.add(objMercadoria);
         }
     }
-
-    public String consultaMercadoria(int codigo) {
+// consultar a mercadoria e retornar somente uma string com os dados da mercadoria 
+    public String consultaMercadoria(int codigo)
+    {
         String retorno = "O Produto " + codigo + " não existe!";
         int index = this.existeMercadoria(codigo);
-        if (index != -1) {
-            retorno = "Produto: " + codigo + "\n" + "Descrição: " + estoque.get(index).getDescricao() + "\n" +
-                        "Preço: " + estoque.get(index).getValorVenda() + "\nQuantidade: " + estoque.get(index).getQuantidade();
+        if (index != -1)
+        {
+            retorno = "Produto: " + codigo + "\n" + "Descrição: " + estoque.get(index).getDescricao() + "\n"
+                    + "Preço:R$ " + estoque.get(index).getValorVenda() + "\nQuantidade: " + estoque.get(index).getQuantidade();
         }
         return retorno;
     }
-
-    public String consultaMercadoriaCompra(int codigo) {
+// consultar a mercadoria pelo codigo e retornar seu valor de venda 
+    public String consultaMercadoriaCompra(int codigo)
+    {
         String retorno = ",";
         int index = this.existeMercadoria(codigo);
-        if (index != -1) {
+        if (index != -1)
+        {
             retorno = codigo + "," + estoque.get(index).getValorVenda();
         }
         return retorno;
     }
-
-    public int consultaQuantidade(int codigo) {
+    // Consulta a quantidade de determinada mercadoria
+    public int consultaQuantidade(int codigo)
+    {
         int quant = 0;
-        for (Mercadoria m: estoque) {
-            if (m.getCodigo() == codigo) {
+        for (Mercadoria m : estoque)
+        {
+            if (m.getCodigo() == codigo)
+            {
                 quant = m.getQuantidade();
             }
         }
         return quant;
     }
-
-    public void diminuiEstoque(int codigo, int quantidade) {
-        for (Mercadoria m: estoque) {
-            if (m.getCodigo() == codigo) {
+    // subtrai a quantidade que foi vendida da quantidade que tem em estoque
+    public void diminuiEstoque(int codigo, int quantidade)
+    {
+        for (Mercadoria m : estoque)
+        {
+            if (m.getCodigo() == codigo)
+            {
                 m.setQuantidade(m.getQuantidade() - quantidade);
             }
         }
     }
-
-    public Mercadoria getMercadoria(int codigo) {
+// retorna uma mercadoria para  nota fiscal 
+    public Mercadoria getMercadoria(int codigo)
+    {
         Mercadoria retorno = new Mercadoria();
-        for (Mercadoria m: estoque) {
-            if (m.getCodigo() == codigo) {
+        for (Mercadoria m : estoque)
+        {
+            if (m.getCodigo() == codigo)
+            {
                 retorno.setCodigo(m.getCodigo());
                 retorno.setDescricao(m.getDescricao());
                 retorno.setValorCompra(m.getValorCompra());
@@ -105,19 +140,8 @@ public class ControleMercadoria {
         }
         return retorno;
     }
-    
-     public Mercadoria getObjMercadoria(int codigo)
-    {
-        for (Mercadoria m : estoque)
-        {
-            if (m.getCodigo() == codigo)
-            {
-                objMercadoria = m;
-            }
-        }
-        return objMercadoria;
-    }
-     public Mercadoria consultaMercadorias(int pCodigo)
+// usado no para excluir a mercadoria retornando um objeto tipo mercadoria para ser deletado
+    public Mercadoria consultaMercadorias(int pCodigo)
     {
         for (Mercadoria mec : estoque)
         {
@@ -128,7 +152,7 @@ public class ControleMercadoria {
         }
         return null;
     }
-
+// retorna uma lista de mercadoria em html num jlabel
     public String listaMercadoria()
     {
         String retorno = "";
@@ -192,7 +216,5 @@ public class ControleMercadoria {
         return retorno;
 
     }
-    
-    
-    
+
 }
