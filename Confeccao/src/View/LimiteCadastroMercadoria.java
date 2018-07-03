@@ -8,7 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LimiteCadastroMercadoria extends JPanel {
+public class LimiteCadastroMercadoria extends JPanel
+{
 
     private JLabel labelTitulo = new JLabel("Cadastro de Mercadorias");
     private JLabel labelCodigo = new JLabel("Codigo:             ");
@@ -26,14 +27,15 @@ public class LimiteCadastroMercadoria extends JPanel {
     private JButton buttonSalvar = new JButton("Salvar");
     private JButton buttonCancelar = new JButton("Cancelar");
 
-    public LimiteCadastroMercadoria(Controle objControle) {
+    public LimiteCadastroMercadoria(Controle objControle)
+    {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.WHITE);
         this.setSize(800, 600);
-        this.setBorder(new EmptyBorder(5,5,5,5));
+        this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5,5,5,5);
+        constraints.insets = new Insets(5, 5, 5, 5);
         constraints.fill = GridBagConstraints.BOTH;
 
         constraints.gridx = 0;
@@ -89,23 +91,29 @@ public class LimiteCadastroMercadoria extends JPanel {
         constraints.gridy = 6;
         this.add(buttonSalvar, constraints);
 
-        buttonSalvar.addActionListener(new ActionListener() {
+        buttonSalvar.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (fieldCodigo.getText() == null || fieldCodigo.getText().equalsIgnoreCase("") || fieldDescricao.getText() == null ||
-                        fieldDescricao.getText().equalsIgnoreCase("") || fieldValorCompra.getText() == null ||
-                        fieldValorCompra.getText().equalsIgnoreCase("") || fieldValorVenda.getText() == null ||
-                        fieldValorVenda.getText().equalsIgnoreCase("") || fieldQuantidade.getText() == null ||
-                        fieldQuantidade.getText().equalsIgnoreCase("")){
+            public void actionPerformed(ActionEvent e)
+            {
+                if (fieldCodigo.getText() == null || fieldCodigo.getText().equalsIgnoreCase("") || fieldDescricao.getText() == null
+                        || fieldDescricao.getText().equalsIgnoreCase("") || fieldValorCompra.getText() == null
+                        || fieldValorCompra.getText().equalsIgnoreCase("") || fieldValorVenda.getText() == null
+                        || fieldValorVenda.getText().equalsIgnoreCase("") || fieldQuantidade.getText() == null
+                        || fieldQuantidade.getText().equalsIgnoreCase(""))
+                {
                     JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos!");
-                } else {
-                    try {
+                } else
+                {
+                    try
+                    {
                         int cod = Integer.parseInt(fieldCodigo.getText());
                         float compra = Float.parseFloat(fieldValorCompra.getText());
                         float venda = Float.parseFloat(fieldValorVenda.getText());
                         int quant = Integer.parseInt(fieldQuantidade.getText());
                         objControle.getObjCtrMercadoria().cadastraMercadoria(cod, fieldDescricao.getText(), compra, venda, quant);
-                    } catch (Exception e1) {
+                    } catch (Exception e1)
+                    {
                         JOptionPane.showMessageDialog(null, e1.getMessage());
                     }
                 }
@@ -117,9 +125,11 @@ public class LimiteCadastroMercadoria extends JPanel {
             }
         });
 
-        buttonCancelar.addActionListener(new ActionListener() {
+        buttonCancelar.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent e)
+            {
                 fieldCodigo.setText("");
                 fieldDescricao.setText("");
                 fieldValorCompra.setText("");

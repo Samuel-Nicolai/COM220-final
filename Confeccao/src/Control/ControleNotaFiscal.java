@@ -155,7 +155,7 @@ public class ControleNotaFiscal {
         Collections.sort(ranking);
 
         for (Mercadoria ran: ranking) {
-            retorno += "\n" + ran.getCodigo() + "\t" + ran.getDescricao() + "\t\t" + ran.getValorVenda() + "\t" + ran.getQuantidade();
+            retorno += "\n" + ran.getCodigo() + "\t" + ran.getDescricao() + "\t" + ran.getValorVenda() + "\t" + ran.getQuantidade();
         }
         return retorno;
     }

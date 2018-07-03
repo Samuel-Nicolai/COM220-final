@@ -8,7 +8,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LimiteConsultaMercadoria extends JPanel {
+public class LimiteConsultaMercadoria extends JPanel
+{
 
     private JLabel labelTitulo = new JLabel("Consulta de Mercadoria");
     private JLabel labelCodigo = new JLabel("Codigo:      ");
@@ -16,14 +17,15 @@ public class LimiteConsultaMercadoria extends JPanel {
     private JButton buttonConsultar = new JButton("Consultar");
     private JTextArea area = new JTextArea(30, 30);
 
-    public LimiteConsultaMercadoria(Controle objControle) {
+    public LimiteConsultaMercadoria(Controle objControle)
+    {
         this.setLayout(new GridBagLayout());
         this.setBackground(Color.WHITE);
         this.setSize(800, 600);
-        this.setBorder(new EmptyBorder(5,5,5,5));
+        this.setBorder(new EmptyBorder(5, 5, 5, 5));
 
         GridBagConstraints constraints = new GridBagConstraints();
-        constraints.insets = new Insets(5,5,5,5);
+        constraints.insets = new Insets(5, 5, 5, 5);
         constraints.fill = GridBagConstraints.BOTH;
 
         constraints.gridx = 0;
@@ -49,19 +51,25 @@ public class LimiteConsultaMercadoria extends JPanel {
         constraints.gridheight = 10;
         this.add(area, constraints);
 
-        buttonConsultar.addActionListener(new ActionListener() {
+        buttonConsultar.addActionListener(new ActionListener()
+        {
             @Override
-            public void actionPerformed(ActionEvent e) {
-                if (fieldCodigo.getText() == null || fieldCodigo.getText().equalsIgnoreCase("")) {
+            public void actionPerformed(ActionEvent e)
+            {
+                if (fieldCodigo.getText() == null || fieldCodigo.getText().equalsIgnoreCase(""))
+                {
                     JOptionPane.showMessageDialog(null, "O campo código do produto deve ser preenchido!");
-                } else {
+                } else
+                {
                     int cod = Integer.parseInt(fieldCodigo.getText());
-                    if (objControle.getObjCtrMercadoria().existeMercadoria(cod) == -1){
-                        JOptionPane.showMessageDialog(null, "O produto " + " ainda não foi cadastrado no sistema!\n" +
-                                "Para proceder com o cadastro vá até Menu > Mercadoria > Cadastrar.");
-                    }
-                    else
+                    if (objControle.getObjCtrMercadoria().existeMercadoria(cod) == -1)
+                    {
+                        JOptionPane.showMessageDialog(null, "O produto " + " ainda não foi cadastrado no sistema!\n"
+                                + "Para proceder com o cadastro vá até Menu > Mercadoria > Cadastrar.");
+                    } else
+                    {
                         area.setText(objControle.getObjCtrMercadoria().consultaMercadoria(cod));
+                    }
                 }
             }
         });

@@ -22,6 +22,7 @@ public class LimiteFaturamentoPeriodo extends JPanel {
     private JButton buttonConsultar = new JButton("Consultar");
     private JButton buttonCancelar = new JButton("Cancelar");
     private JTextArea area = new JTextArea(30, 30);
+    
 
     public LimiteFaturamentoPeriodo(Controle objControle) {
         this.setLayout(new GridBagLayout());

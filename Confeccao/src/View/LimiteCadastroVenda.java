@@ -29,13 +29,14 @@ public class LimiteCadastroVenda extends JPanel {
     private JTextField fieldCliente = new JTextField(30);
     private JTextField fieldProduto = new JTextField(10);
     private JTextField fieldQuantidade = new JTextField(10);
+  // private JLabel conferencia = new JLabel("");
     private JTextArea conferencia = new JTextArea(40, 40);
     private String texto = "";
 
     private JButton buttonGerarNota = new JButton("Gerar Nota Fiscal");
     private JButton buttonCancelar = new JButton("Cancelar");
-    private JButton buttonAddCliente = new JButton("Add");
-    private JButton buttonAddProduto = new JButton("Add");
+    private JButton buttonAddCliente = new JButton("Adicionar cliente");
+    private JButton buttonAddProduto = new JButton("Adicionar produto");
 
     public LimiteCadastroVenda(Controle objControle) {
         this.setLayout(new GridBagLayout());
@@ -121,7 +122,7 @@ public class LimiteCadastroVenda extends JPanel {
                     JOptionPane.showMessageDialog(null, "O Campo de código do cliente deve ser preenchido");
                 } else {
                     if (objControle.getObjCtrCliente().existeCliente(fieldCliente.getText())) {
-                        texto += objControle.getObjCtrCliente().consultaCliente(fieldCliente.getText());
+                        texto += objControle.getObjCtrCliente().consultarClienteSemTable(fieldCliente.getText());
                         conferencia.setText(texto);
                     } else {
                         JOptionPane.showMessageDialog(null, "O cliente "
